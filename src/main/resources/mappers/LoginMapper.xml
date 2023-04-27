@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="org.ph.ssm.ZJJGWeb.dao.LoginMapper">
+    <resultMap id="BaseResultMap" type="org.ph.ssm.ZJJGWeb.bean.XzhouseMenu">
+        <id column="id" jdbcType="INTEGER" property="id"/>
+        <result column="menuCode" jdbcType="VARCHAR" property="menuCode"/>
+        <result column="menuName" jdbcType="VARCHAR" property="menuName"/>
+        <result column="menuComponet" jdbcType="VARCHAR" property="menuComponet"/>
+        <result column="menuPath" jdbcType="VARCHAR" property="menuPath"/>
+        <result column="menuRedirect" jdbcType="VARCHAR" property="menuRedirect"/>
+        <result column="menuParentCode" jdbcType="VARCHAR" property="menuParentCode"/>
+        <result column="menuPermiss" jdbcType="VARCHAR" property="menuPermiss"/>
+        <result column="menuTitle" jdbcType="VARCHAR" property="menuTitle"/>
+        <result column="menuIcon" jdbcType="VARCHAR" property="menuIcon"/>
+        <result column="menuAffix" jdbcType="VARCHAR" property="menuAffix"/>
+        <result column="menuLevel" jdbcType="VARCHAR" property="menuLevel"/>
+        <result column="menuUptTime" jdbcType="VARCHAR" property="menuUptTime"/>
+    </resultMap>
+    <resultMap id="UserResultMap" type="org.ph.ssm.ZJJGWeb.bean.XzhouseUsers">
+        <id column="id" jdbcType="INTEGER" property="id"/>
+        <result column="userCode" jdbcType="VARCHAR" property="userCode"/>
+        <result column="userName" jdbcType="VARCHAR" property="userName"/>
+        <result column="userPass" jdbcType="VARCHAR" property="userPass"/>
+        <result column="userDeptcode" jdbcType="VARCHAR" property="userDeptcode"/>
+        <result column="userEmail" jdbcType="VARCHAR" property="userEmail"/>
+    </resultMap>
+    <sql id="Base_Column_List">
+        id, menuCode, menuName, menuComponet, menuPath, menuRedirect,menuParentCode,menuPermiss,menuTitle,menuIcon,menuAffix,menuLevel,menuUptTime
+    </sql>
+
+    <!--<select id="SelectMenuList" parameterType="java.lang.String" resultMap="BaseResultMap">
+        SELECT a.id AS id, a.menuCode AS menuCode, a.menuName AS menuName, a.menuComponet AS menuComponet, a.menuPath AS menuPath,
+               a.menuRedirect AS menuRedirect, a.menuParentCode AS menuParentCode,a.menuPermiss AS menuPermiss,
+               a.menuTitle AS menuTitle,a.menuIcon AS menuIcon,a.menuAffix as menuAffix,a.menuLevel AS menuLevel,
+        FROM  xzhouse_menu_role_permiss a,
+              xzhouse_menu b,
+              xzhouse_permiss c,
+              xzhouse_user_role d
+        where a.menu_code=b.menu_code and a.permiss_code=c.permiss_code and
+              a.role_code=d.role_code and d.user_code=#{UserCode,jdbcType=VARCHAR}
+        ORDER BY b.menu_code
+    </select>-->
+
+    <select id="SelectMenuList" parameterType="java.lang.String" resultMap="BaseResultMap">
+        SELECT b.id AS id, b.menu_code AS menuCode,b.menu_name AS menuName,b.menu_componet AS menuComponet,b.menu_path AS menuPath,
+               b.menu_redirect AS menuRedirect,b.menu_parent_code AS menuParentCode,b.menu_permiss AS menuPermiss,
+               b.menu_title AS menuTitle,b.menu_icon AS menuIcon,b.menu_affix AS menuAffix,b.menu_level AS menuLevel
+        FROM  xzhouse_menu_role_permiss a,
+              xzhouse_menu b,
+              xzhouse_permiss c,
+              xzhouse_user_role d
+        where a.menu_code=b.menu_code and a.permiss_code=c.permiss_code and
+              a.role_code=d.role_code and d.user_code=#{UserCode,jdbcType=VARCHAR}
+        ORDER BY b.menu_code
+    </select>
+    <select id="SelectUsers" parameterType="java.lang.String" resultMap="UserResultMap">
+        SELECT a.id AS id,a.user_code AS userCode,a.user_name AS userName,a.user_pass AS userPass,
+               a.user_deptcode AS userDeptcode,a.user_email AS userEmail,a.upt_time AS uptTime
+        FROM   xzhouse_users a
+        WHERE  a.user_code=#{UserCode,jdbcType=VARCHAR}
+    </select>
+</mapper>
