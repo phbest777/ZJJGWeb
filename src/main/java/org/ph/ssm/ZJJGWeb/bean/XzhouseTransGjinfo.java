@@ -132,7 +132,7 @@ public class XzhouseTransGjinfo {
     return addwords;
   }
 
-  public void setAbstract(String addwords) {
+  public void setAddwords(String addwords) {
     this.addwords = addwords;
   }
 

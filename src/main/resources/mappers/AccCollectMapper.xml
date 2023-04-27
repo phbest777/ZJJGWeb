@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="org.ph.ssm.ZJJGWeb.dao.AccCollectMapper">
+    <resultMap id="GjinfoResultMap" type="org.ph.ssm.ZJJGWeb.bean.XzhouseTransGjinfo">
+        <id column="id" jdbcType="INTEGER" property="id"/>
+        <result column="payeracc" jdbcType="VARCHAR" property="payeracc"/>
+        <result column="payername" jdbcType="VARCHAR" property="payername"/>
+        <result column="gjacc" jdbcType="VARCHAR" property="gjacc"/>
+        <result column="gjname" jdbcType="VARCHAR" property="gjname"/>
+        <result column="contractno" jdbcType="VARCHAR" property="contractno"/>
+        <result column="amt" jdbcType="DECIMAL" property="amt"/>
+        <result column="gapslsh" jdbcType="VARCHAR" property="gapslsh"/>
+        <result column="hxlsh" jdbcType="VARCHAR" property="hxlsh"/>
+        <result column="orgid" jdbcType="VARCHAR" property="orgid"/>
+        <result column="orgname" jdbcType="VARCHAR" property="orgname"/>
+        <result column="isgj" jdbcType="VARCHAR" property="isgj"/>
+        <result column="addwords" jdbcType="VARCHAR" property="addwords"/>
+        <result column="datadate" jdbcType="VARCHAR" property="datadate"/>
+        <result column="datatime" jdbcType="VARCHAR" property="datatime"/>
+    </resultMap>
+
+
+    <select id="SelectGjinfoByDate" parameterType="java.lang.String" resultMap="GjinfoResultMap">
+        SELECT a.id as id, a.payeracc as payeracc,a.payername as payername,a.gjacc as gjacc,a.gjname as gjname,
+               a.contractno as contractno,a.amt as amt,a.gapslsh as gapslsh,a.hxlsh as hxlsh,a.orgid as orgid,
+               a.orgname as orgname, a.isgj as isgj, a.addwords as addwords,a.datadate as datadate,a.datatime as datatime
+        FROM  xzhouse_trans_gjinfo a,
+        where
+               a.datadate=#{DataDate,jdbcType=VARCHAR}
+        ORDER BY a.id
+    </select>
+
+</mapper>
