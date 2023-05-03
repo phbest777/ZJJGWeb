@@ -24,9 +24,18 @@
         SELECT a.id as id, a.payeracc as payeracc,a.payername as payername,a.gjacc as gjacc,a.gjname as gjname,
                a.contractno as contractno,a.amt as amt,a.gapslsh as gapslsh,a.hxlsh as hxlsh,a.orgid as orgid,
                a.orgname as orgname, a.isgj as isgj, a.addwords as addwords,a.datadate as datadate,a.datatime as datatime
-        FROM  xzhouse_trans_gjinfo a,
-        where
-               a.datadate=#{DataDate,jdbcType=VARCHAR}
+        FROM  XZHOUSE_TRANS_GJINFO a
+        WHERE a.datadate=#{DataDate,jdbcType=VARCHAR}
+        ORDER BY a.id
+    </select>
+
+
+    <select id="SelectGjinfoByOrgID" parameterType="java.lang.String" resultMap="GjinfoResultMap">
+        SELECT a.id as id, a.payeracc as payeracc,a.payername as payername,a.gjacc as gjacc,a.gjname as gjname,
+               a.contractno as contractno,a.amt as amt,a.gapslsh as gapslsh,a.hxlsh as hxlsh,a.orgid as orgid,
+               a.orgname as orgname, a.isgj as isgj, a.addwords as addwords,a.datadate as datadate,a.datatime as datatime
+        FROM  XZHOUSE_TRANS_GJINFO a
+        WHERE a.orgid=#{OrgID,jdbcType=VARCHAR}
         ORDER BY a.id
     </select>
 

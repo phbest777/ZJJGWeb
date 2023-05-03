@@ -5,6 +5,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+@Service
 public class AccCollectService {
 
     @Autowired
@@ -13,5 +14,10 @@ public class AccCollectService {
     public List<XzhouseTransGjinfo> getGjinfoListByDate(String Date)
     {
         return accCollectMapper.SelectGjinfoByDate(Date);
+    }
+
+    public List<XzhouseTransGjinfo> getGjinfoListByOrgID(String OrgID)
+    {
+        return accCollectMapper.SelectGjinfoByOrgID(OrgID);
     }
 }

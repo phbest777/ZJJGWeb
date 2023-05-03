@@ -5,4 +5,5 @@ import org.apache.ibatis.annotations.Param;
 
 public interface AccCollectMapper {
     List<XzhouseTransGjinfo> SelectGjinfoByDate(String DataDate);
+    List<XzhouseTransGjinfo> SelectGjinfoByOrgID(String OrgID);
 }
