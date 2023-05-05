@@ -39,4 +39,31 @@
         ORDER BY a.id
     </select>
 
+    <select id="SelectGjinfoByMultiChoose" parameterType="map" resultMap="GjinfoResultMap">
+        SELECT * FROM XZHOUSE_TRANS_GJINFO a
+      <where>
+          <if test="payername !=null and payername !='' ">
+              and a.payername=#{payername}
+          </if>
+          <if test="payeracc !=null and payeracc !='' ">
+              and a.payeracc=#{payeracc}
+          </if>
+          <if test="contractno !=null and contractno !='' ">
+              and a.contractno=#{contractno}
+          </if>
+          <if test="amt !=null and amt !='' ">
+              and a.amt=#{amt}
+          </if>
+          <if test="isgj !=null and isgj !='' and isgj !='2'.toString()">
+              and a.isgj=#{isgj}
+          </if>
+          <if test="startdatadate !=null and startdatadate !='' ">
+              and a.datadate &gt;=#{startdatadate}
+          </if>
+          <if test="enddatadate !=null and enddatadate !='' ">
+              and a.datadate &lt;=#{enddatadate}
+          </if>
+              and a.orgid=#{orgid}
+      </where>
+    </select>
 </mapper>

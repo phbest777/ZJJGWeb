@@ -5,6 +5,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Map;
+
 @Service
 public class AccCollectService {
 
@@ -19,5 +21,10 @@ public class AccCollectService {
     public List<XzhouseTransGjinfo> getGjinfoListByOrgID(String OrgID)
     {
         return accCollectMapper.SelectGjinfoByOrgID(OrgID);
+    }
+
+    public List<XzhouseTransGjinfo> getGjinfoListByMultiChoose(Map ChooseMap)
+    {
+        return accCollectMapper.SelectGjinfoByMultiChoose(ChooseMap);
     }
 }
