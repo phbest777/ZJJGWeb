@@ -17,4 +17,9 @@ public class AccInfoService {
     {
         return accInfoMapper.SelectAccinfoByOrgID(OrgID);
     }
+
+    public List<XzhouseParaAccinfo> getAccInfoByOrgIDList(List<String> OrgIDList)
+    {
+        return accInfoMapper.SelectAccinfoByOrgIDList(OrgIDList);
+    }
 }

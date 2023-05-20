@@ -10,4 +10,6 @@ public interface AccCollectMapper {
     List<XzhouseTransGjinfo> SelectGjinfoByOrgID(String OrgID);
 
     List<XzhouseTransGjinfo> SelectGjinfoByMultiChoose(Map ChooseMap);
+    List<XzhouseTransGjinfo> SelectGjinfoByOrgIDS(@Param("OrgIDList") List<String> OrgIDList);
+    List<XzhouseTransGjinfo> SelectGjinfoByMultiChooseWithOrgIDS(Map ChooseMap);
 }

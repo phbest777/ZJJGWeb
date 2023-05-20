@@ -27,4 +27,14 @@ public class AccCollectService {
     {
         return accCollectMapper.SelectGjinfoByMultiChoose(ChooseMap);
     }
+
+    public List<XzhouseTransGjinfo> getGjinfoListByOrgIDS(List<String>OrgIDList)
+    {
+        return accCollectMapper.SelectGjinfoByOrgIDS(OrgIDList);
+    }
+
+    public List<XzhouseTransGjinfo> getGjinfoListByMultiChooseWithOrgIDS(Map ChooseMap)
+    {
+        return accCollectMapper.SelectGjinfoByMultiChooseWithOrgIDS(ChooseMap);
+    }
 }

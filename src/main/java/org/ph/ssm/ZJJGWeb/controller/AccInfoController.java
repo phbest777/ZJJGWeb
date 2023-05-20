@@ -6,9 +6,11 @@ import org.ph.ssm.ZJJGWeb.bean.XzhouseParaAccinfo;
 import org.ph.ssm.ZJJGWeb.model.*;
 import org.ph.ssm.ZJJGWeb.service.AccInfoService;
 import org.ph.ssm.ZJJGWeb.service.LoginService;
+import org.ph.ssm.ZJJGWeb.bean.XzhouseDeptOrg;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 import java.util.List;
+import java.util.stream.Collectors;
 
 
 @RestController
@@ -24,8 +26,10 @@ public class AccInfoController {
     {
         String UserCode=QueryInfo.path("username").asText();
         XzhouseUsers userInfo=loginService.getUserList(UserCode).get(0);
-        String OrgID=userInfo.getUserDeptcode();
-        List<XzhouseParaAccinfo> AccinfoList = accInfoService.getAccInfoByOrgID(OrgID);
+        String DeptCode=userInfo.getUserDeptcode();
+        List<XzhouseDeptOrg> xzhouseDeptOrgs=loginService.getOrgIDSByDeptCode(DeptCode);
+        List<String> OrgIDList=xzhouseDeptOrgs.stream().map(orgidlist->orgidlist.getOrgid()).distinct().collect(Collectors.toList());
+        List<XzhouseParaAccinfo> AccinfoList = accInfoService.getAccInfoByOrgIDList(OrgIDList);
         System.out.println("Get AccinfoList by OrgID total is:"+AccinfoList.size());
 
         // step4:包装查询后的数据

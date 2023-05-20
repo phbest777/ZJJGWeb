@@ -2,6 +2,7 @@ package org.ph.ssm.ZJJGWeb.service;
 import org.ph.ssm.ZJJGWeb.bean.XzhouseMenu;
 import org.ph.ssm.ZJJGWeb.bean.XzhouseUsers;
 import org.ph.ssm.ZJJGWeb.dao.LoginMapper;
+import org.ph.ssm.ZJJGWeb.bean.XzhouseDeptOrg;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -22,5 +23,10 @@ public class LoginService {
     public List<XzhouseUsers> getUserList(String UserCode)
     {
         return loginMapper.SelectUsers(UserCode);
+    }
+
+    public List<XzhouseDeptOrg>getOrgIDSByDeptCode(String DeptCode)
+    {
+        return loginMapper.SelectOrgIDs(DeptCode);
     }
 }

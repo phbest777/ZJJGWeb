@@ -26,7 +26,7 @@
                a.orgname as orgname, a.isgj as isgj, a.addwords as addwords,a.datadate as datadate,a.datatime as datatime
         FROM  XZHOUSE_TRANS_GJINFO a
         WHERE a.datadate=#{DataDate,jdbcType=VARCHAR}
-        ORDER BY a.id
+        ORDER BY a.datadate desc
     </select>
 
 
@@ -36,7 +36,23 @@
                a.orgname as orgname, a.isgj as isgj, a.addwords as addwords,a.datadate as datadate,a.datatime as datatime
         FROM  XZHOUSE_TRANS_GJINFO a
         WHERE a.orgid=#{OrgID,jdbcType=VARCHAR}
-        ORDER BY a.id
+        ORDER BY a.datadate desc
+    </select>
+
+    <select id="SelectGjinfoByOrgIDS"  resultMap="GjinfoResultMap">
+        SELECT a.id as id, a.payeracc as payeracc,a.payername as payername,a.gjacc as gjacc,a.gjname as gjname,
+               a.contractno as contractno,a.amt as amt,a.gapslsh as gapslsh,a.hxlsh as hxlsh,a.orgid as orgid,
+               a.orgname as orgname, a.isgj as isgj, a.addwords as addwords,a.datadate as datadate,a.datatime as datatime
+        FROM  XZHOUSE_TRANS_GJINFO a
+        <where>
+             <if test="OrgIDList !=null and OrgIDList.size()!=0">
+                 and a.orgid in
+                 <foreach collection="OrgIDList" item="item" index="index" separator="," open="(" close=")">
+                     #{item}
+                 </foreach>
+             </if>
+        </where>
+        ORDER BY a.datadate desc
     </select>
 
     <select id="SelectGjinfoByMultiChoose" parameterType="map" resultMap="GjinfoResultMap">
@@ -65,5 +81,40 @@
           </if>
               and a.orgid=#{orgid}
       </where>
+        ORDER BY a.datadate desc
+    </select>
+
+    <select id="SelectGjinfoByMultiChooseWithOrgIDS" parameterType="map" resultMap="GjinfoResultMap">
+        SELECT * FROM XZHOUSE_TRANS_GJINFO a
+        <where>
+            <if test="payername !=null and payername !='' ">
+                and a.payername=#{payername}
+            </if>
+            <if test="payeracc !=null and payeracc !='' ">
+                and a.payeracc=#{payeracc}
+            </if>
+            <if test="contractno !=null and contractno !='' ">
+                and a.contractno=#{contractno}
+            </if>
+            <if test="amt !=null and amt !='' ">
+                and a.amt=#{amt}
+            </if>
+            <if test="isgj !=null and isgj !='' and isgj !='2'.toString()">
+                and a.isgj=#{isgj}
+            </if>
+            <if test="startdatadate !=null and startdatadate !='' ">
+                and a.datadate &gt;=#{startdatadate}
+            </if>
+            <if test="enddatadate !=null and enddatadate !='' ">
+                and a.datadate &lt;=#{enddatadate}
+            </if>
+            <if test="OrgIDList !=null and OrgIDList.size()!=0">
+                and a.orgid in
+                <foreach collection="OrgIDList" item="item" index="index" separator="," open="(" close=")">
+                    #{item}
+                </foreach>
+            </if>
+        </where>
+        ORDER BY a.datadate desc
     </select>
 </mapper>
