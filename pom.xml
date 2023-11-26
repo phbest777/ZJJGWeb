@@ -142,6 +142,46 @@
       <artifactId>hutool-all</artifactId>
       <version>5.8.16</version>
     </dependency>
+    <dependency>
+      <groupId>com.hynnet</groupId>
+      <artifactId>jacob</artifactId>
+      <version>1.19</version>
+    </dependency>
+    <dependency>
+      <groupId>org.apache.httpcomponents</groupId>
+      <artifactId>httpclient</artifactId>
+      <version>4.5</version>
+    </dependency>
+    <dependency>
+      <groupId>javax</groupId>
+      <artifactId>javaee-api</artifactId>
+      <version>8.0</version>
+    </dependency>
+    <dependency>
+      <groupId>org.springframework</groupId>
+      <artifactId>spring-websocket</artifactId>
+      <version>5.0.6.RELEASE</version>
+    </dependency>
+    <dependency>
+      <groupId>org.springframework</groupId>
+      <artifactId>spring-messaging</artifactId>
+      <version>5.0.6.RELEASE</version>
+    </dependency>
+    <dependency>
+      <groupId>org.springframework.boot</groupId>
+      <artifactId>spring-boot-starter-web</artifactId>
+      <version>3.0.7</version>
+    </dependency>
+    <dependency>
+      <groupId>org.springframework.boot</groupId>
+      <artifactId>spring-boot-starter-websocket</artifactId>
+      <version>3.0.7</version>
+    </dependency>
+    <dependency>
+      <groupId>org.apache</groupId>
+      <artifactId>catalina</artifactId>
+      <version>9.0</version>
+    </dependency>
   </dependencies>
   <build>
     <finalName>ZJJGWeb</finalName>

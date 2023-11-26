@@ -18,6 +18,7 @@ public class XzhouseTransGjinfo {
   private String addwords;
   private String datadate;
   private String datatime;
+  private String agent;
 
 
   public Integer getId() {
@@ -154,4 +155,11 @@ public class XzhouseTransGjinfo {
     this.datatime = datatime;
   }
 
+  public void setAgent(String agent) {
+    this.agent = agent;
+  }
+
+  public String getAgent() {
+    return agent;
+  }
 }

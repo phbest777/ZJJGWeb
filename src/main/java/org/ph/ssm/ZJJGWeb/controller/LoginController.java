@@ -7,8 +7,10 @@ import com.github.pagehelper.PageInfo;
 import org.ph.ssm.ZJJGWeb.bean.*;
 import org.ph.ssm.ZJJGWeb.bean.LoginReturnData;
 import org.ph.ssm.ZJJGWeb.bean.XzhouseMenu;
+import org.ph.ssm.ZJJGWeb.bean.XzhouseUserRoleDept;
 import org.ph.ssm.ZJJGWeb.model.*;
 import org.ph.ssm.ZJJGWeb.service.LoginService;
+import org.ph.ssm.ZJJGWeb.service.UserInfoService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -21,6 +23,9 @@ import java.util.Map;
 public class LoginController {
     @Autowired
     private LoginService loginService;
+    @Autowired
+    private UserInfoService userInfoService;
+
 
     @CrossOrigin
     @PostMapping(value = "/login")
@@ -59,8 +64,9 @@ public class LoginController {
         LoginUserInfoModel loginUserInfoModel=new LoginUserInfoModel();
         loginUserInfoModel.setCode("200");
         loginUserInfoModel.setMsg("success");
+        List<XzhouseUserRoleDept> xzhouseUserRoleDeptList=userInfoService.getUserRoleDept(usercode);
         List<String> permissionsList=new ArrayList<String>();
-        permissionsList.add(usercode);
+        permissionsList.add(xzhouseUserRoleDeptList.get(0).getSupRolecode());//获取当前登录用户权限
         ReturnDataUserInfo returnDataUserInfo=new ReturnDataUserInfo();
         returnDataUserInfo.setPermissions(permissionsList);
         returnDataUserInfo.setUsername(usercode);

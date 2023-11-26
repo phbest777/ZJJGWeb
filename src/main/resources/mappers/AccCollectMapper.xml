@@ -17,26 +17,56 @@
         <result column="addwords" jdbcType="VARCHAR" property="addwords"/>
         <result column="datadate" jdbcType="VARCHAR" property="datadate"/>
         <result column="datatime" jdbcType="VARCHAR" property="datatime"/>
+        <result column="agent"    jdbcType="VARCHAR" property="agent"/>
+    </resultMap>
+    <resultMap id="GjRecordInfoMap" type="org.ph.ssm.ZJJGWeb.bean.XzhouseAddgjrecord">
+        <id column="id" jdbcType="INTEGER" property="id"/>
+        <result column="jgaccount" jdbcType="VARCHAR" property="jgaccount"/>
+        <result column="ckje" jdbcType="VARCHAR" property="ckje"/>
+        <result column="yhlsh" jdbcType="VARCHAR" property="yhlsh"/>
+        <result column="code" jdbcType="VARCHAR" property="code"/>
+        <result column="msg" jdbcType="VARCHAR" property="msg"/>
+        <result column="orgid" jdbcType="DECIMAL" property="orgid"/>
+        <result column="orgname" jdbcType="VARCHAR" property="orgname"/>
+        <result column="accountname" jdbcType="VARCHAR" property="accountname"/>
+        <result column="datadate" jdbcType="VARCHAR" property="datadate"/>
+        <result column="datatime" jdbcType="VARCHAR" property="datatime"/>
     </resultMap>
 
 
     <select id="SelectGjinfoByDate" parameterType="java.lang.String" resultMap="GjinfoResultMap">
         SELECT a.id as id, a.payeracc as payeracc,a.payername as payername,a.gjacc as gjacc,a.gjname as gjname,
                a.contractno as contractno,a.amt as amt,a.gapslsh as gapslsh,a.hxlsh as hxlsh,a.orgid as orgid,
-               a.orgname as orgname, a.isgj as isgj, a.addwords as addwords,a.datadate as datadate,a.datatime as datatime
+               a.orgname as orgname, a.isgj as isgj, a.addwords as addwords,a.datadate as datadate,a.datatime as datatime,a.agent as agent
         FROM  XZHOUSE_TRANS_GJINFO a
         WHERE a.datadate=#{DataDate,jdbcType=VARCHAR}
-        ORDER BY a.id
+        ORDER BY a.datadate desc
     </select>
 
 
     <select id="SelectGjinfoByOrgID" parameterType="java.lang.String" resultMap="GjinfoResultMap">
         SELECT a.id as id, a.payeracc as payeracc,a.payername as payername,a.gjacc as gjacc,a.gjname as gjname,
                a.contractno as contractno,a.amt as amt,a.gapslsh as gapslsh,a.hxlsh as hxlsh,a.orgid as orgid,
-               a.orgname as orgname, a.isgj as isgj, a.addwords as addwords,a.datadate as datadate,a.datatime as datatime
+               a.orgname as orgname, a.isgj as isgj, a.addwords as addwords,a.datadate as datadate,a.datatime as datatime,a.agent as agent
         FROM  XZHOUSE_TRANS_GJINFO a
         WHERE a.orgid=#{OrgID,jdbcType=VARCHAR}
-        ORDER BY a.id
+        ORDER BY a.datadate desc
+    </select>
+
+    <select id="SelectGjinfoByOrgIDS"  resultMap="GjinfoResultMap">
+        SELECT a.id as id, a.payeracc as payeracc,a.payername as payername,a.gjacc as gjacc,a.gjname as gjname,
+               a.contractno as contractno,a.amt as amt,a.gapslsh as gapslsh,a.hxlsh as hxlsh,a.orgid as orgid,
+               a.orgname as orgname, a.isgj as isgj, a.addwords as addwords,a.datadate as datadate,a.datatime as datatime,a.agent as agent
+        FROM  XZHOUSE_TRANS_GJINFO a
+        <where>
+             <if test="OrgIDList !=null and OrgIDList.size()!=0">
+                 and a.orgid in
+                 <foreach collection="OrgIDList" item="item" index="index" separator="," open="(" close=")">
+                     #{item}
+                 </foreach>
+             </if>
+        </where>
+        ORDER BY a.datadate desc
     </select>
 
     <select id="SelectGjinfoByMultiChoose" parameterType="map" resultMap="GjinfoResultMap">
@@ -65,5 +95,123 @@
           </if>
               and a.orgid=#{orgid}
       </where>
+        ORDER BY a.datadate desc
     </select>
+
+    <select id="SelectGjinfoByMultiChooseWithOrgIDS" parameterType="map" resultMap="GjinfoResultMap">
+        SELECT * FROM XZHOUSE_TRANS_GJINFO a
+        <where>
+            <if test="payername !=null and payername !='' ">
+                and a.payername=#{payername}
+            </if>
+            <if test="payeracc !=null and payeracc !='' ">
+                and a.payeracc=#{payeracc}
+            </if>
+            <if test="contractno !=null and contractno !='' ">
+                and a.contractno=#{contractno}
+            </if>
+            <if test="amt !=null and amt !='' ">
+                and a.amt=#{amt}
+            </if>
+            <if test="isgj !=null and isgj !='' and isgj !='2'.toString()">
+                and a.isgj=#{isgj}
+            </if>
+            <if test="startdatadate !=null and startdatadate !='' ">
+                and a.datadate &gt;=#{startdatadate}
+            </if>
+            <if test="enddatadate !=null and enddatadate !='' ">
+                and a.datadate &lt;=#{enddatadate}
+            </if>
+            <if test="OrgIDList !=null and OrgIDList.size()!=0">
+                and a.orgid in
+                <foreach collection="OrgIDList" item="item" index="index" separator="," open="(" close=")">
+                    #{item}
+                </foreach>
+            </if>
+        </where>
+        ORDER BY a.datadate desc
+    </select>
+
+    <insert id="insertTransGjInfo" parameterType="org.ph.ssm.ZJJGWeb.bean.XzhouseTransGjinfo">
+        insert into XZHOUSE_TRANS_GJINFO(payeracc,payername,gjacc,gjname,contractno,amt,gapslsh,hxlsh,orgid,orgname,isgj,addwords,datadate,datatime,agent)
+        values(#{payeracc},#{payername},#{gjacc},#{gjname},#{contractno},#{amt},#{gapslsh},#{hxlsh},
+               #{orgid},#{orgname},#{isgj},#{addwords},#{datadate},#{datatime},#{agent})
+    </insert>
+    <insert id="insertAddGjInfo" parameterType="org.ph.ssm.ZJJGWeb.bean.XzhouseAddgjrecord">
+        insert into XZHOUSE_ADDGJRECORD
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="jgaccount != null">
+                jgaccount,
+            </if>
+            <if test="ckje != null">
+                ckje,
+            </if>
+            <if test="yhlsh != null">
+                yhlsh,
+            </if>
+            <if test="code != null">
+                code,
+            </if>
+            <if test="msg != null">
+                msg,
+            </if>
+            <if test="orgid != null">
+                orgid,
+            </if>
+            <if test="orgname != null">
+                orgname,
+            </if>
+            <if test="accountname != null">
+                accountname,
+            </if>
+            <if test="datadate != null">
+                datadate,
+            </if>
+            <if test="datatime != null">
+                datatime,
+            </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+
+            <if test="jgaccount != null">
+                #{jgaccount,jdbcType=VARCHAR},
+            </if>
+            <if test="ckje != null">
+                #{ckje,jdbcType=DOUBLE},
+            </if>
+            <if test="yhlsh != null">
+                #{yhlsh,jdbcType=VARCHAR},
+            </if>
+            <if test="code != null">
+                #{code,jdbcType=VARCHAR},
+            </if>
+            <if test="msg != null">
+                #{msg,jdbcType=VARCHAR},
+            </if>
+            <if test="orgid != null">
+                #{orgid,jdbcType=VARCHAR},
+            </if>
+            <if test="orgname != null">
+                #{orgname,jdbcType=VARCHAR},
+            </if>
+            <if test="accountname != null">
+                #{accountname,jdbcType=VARCHAR},
+            </if>
+            <if test="datadate != null">
+                #{datadate,jdbcType=VARCHAR},
+            </if>
+            <if test="datatime != null">
+                #{datatime,jdbcType=VARCHAR},
+            </if>
+        </trim>
+    </insert>
+    <update id="updateGjInfoByIsGj" parameterType="map">
+        update XZHOUSE_TRANS_GJINFO
+        set isgj=#{isgj,jdbcType=VARCHAR}
+        where payeracc = #{payeracc,jdbcType=VARCHAR} and
+              contractno=#{contractno,jdbcType=VARCHAR} and
+              amt=#{amt,jdbcType=DOUBLE} and
+              hxlsh=#{hxlsh,jdbcType=VARCHAR} and
+              datadate=#{datadate,jdbcType=VARCHAR}
+    </update>
 </mapper>

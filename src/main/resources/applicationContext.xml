@@ -57,7 +57,7 @@
         <!-- 配置数据源 -->
         <property name="dataSource" ref="dataSource"/>
     </bean>
-
+    <bean class="org.ph.ssm.ZJJGWeb.tools.SpringTool"></bean>
     <!-- 配置事务通知 -->
     <tx:advice id="txAdvice" transaction-manager="transactionManager">
         <tx:attributes>

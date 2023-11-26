@@ -17,6 +17,43 @@ public class XzhouseTransZjjz {
   private String transdate;
   private String cklb;
   private String isjz;
+  private String jgaccount;
+  private String orgid;
+  private String orgname;
+
+  public String getOrgid() {
+    return orgid;
+  }
+
+  public void setOrgid(String orgid) {
+    this.orgid = orgid;
+  }
+
+  public String getOrgname() {
+    return orgname;
+  }
+
+  public void setOrgname(String orgname) {
+    this.orgname = orgname;
+  }
+
+  public String getJgaccount() {
+    return jgaccount;
+  }
+
+  public void setJgaccount(String jgaccount) {
+    this.jgaccount = jgaccount;
+  }
+
+  public String getJgname() {
+    return jgname;
+  }
+
+  public void setJgname(String jgname) {
+    this.jgname = jgname;
+  }
+
+  private String jgname;
 
 
   public Integer getId() {

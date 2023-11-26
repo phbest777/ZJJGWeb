@@ -24,6 +24,16 @@
         <result column="userDeptcode" jdbcType="VARCHAR" property="userDeptcode"/>
         <result column="userEmail" jdbcType="VARCHAR" property="userEmail"/>
     </resultMap>
+    <resultMap id="DeptInfoMap" type="org.ph.ssm.ZJJGWeb.bean.XzhouseDeptOrg">
+        <id column="id" jdbcType="INTEGER" property="id"/>
+        <result column="deptcode" jdbcType="VARCHAR" property="deptcode"/>
+        <result column="orgid" jdbcType="VARCHAR" property="orgid"/>
+        <result column="uptdate" jdbcType="VARCHAR" property="uptdate"/>
+        <result column="orgname" jdbcType="VARCHAR" property="orgname"/>
+        <result column="deptname" jdbcType="VARCHAR" property="deptname"/>
+    </resultMap>
+
+
     <sql id="Base_Column_List">
         id, menuCode, menuName, menuComponet, menuPath, menuRedirect,menuParentCode,menuPermiss,menuTitle,menuIcon,menuAffix,menuLevel,menuUptTime
     </sql>
@@ -58,5 +68,12 @@
                a.user_deptcode AS userDeptcode,a.user_email AS userEmail,a.upt_time AS uptTime
         FROM   xzhouse_users a
         WHERE  a.user_code=#{UserCode,jdbcType=VARCHAR}
+    </select>
+    <select id="SelectOrgIDs" parameterType="java.lang.String" resultMap="DeptInfoMap">
+        SELECT a.id AS id,a.deptcode AS deptcode,a.orgid AS orgid,b.deptname as deptname,c.brhm_br_name as orgname,a.uptdate AS uptdate
+        FROM    XZHOUSE_DEPT_ORG a,
+                XZHOUSE_DEPT b,
+                XZHOUSE_PARA_ORGINFO c
+        WHERE  a.deptcode=b.deptcode and a.orgid=c.brhm_br_no and a.deptcode=#{DeptCode,jdbcType=VARCHAR}
     </select>
 </mapper>

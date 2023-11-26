@@ -10,14 +10,50 @@
         <result column="contractno" jdbcType="VARCHAR" property="contractno"/>
         <result column="status" jdbcType="VARCHAR" property="status"/>
         <result column="datadate" jdbcType="VARCHAR" property="datadate"/>
+        <result column="agent" jdbcType="VARCHAR" property="agent"/>
+        <result column="gjacc" jdbcType="VARCHAR" property="gjacc"/>
+        <result column="gjname" jdbcType="VARCHAR" property="gjname"/>
     </resultMap>
 
 
     <select id="SelectAccinfoByOrgID" parameterType="java.lang.String" resultMap="AccinfoResultMap">
         SELECT a.id as id, a.orgid as orgid,a.orgname as orgname,a.jgaccount as jgaccount,a.jgname as jgname,
-               a.contractno as contractno,a.status as status,a.datadate as datadate
-        FROM  XZHOUSE_PARA_ACCINFO a
-        WHERE a.orgid=#{OrgID,jdbcType=VARCHAR}
+               a.contractno as contractno,a.status as status,a.datadate as datadate,a.agent as agent,b.gjacc as gjacc,b.gjname as gjname
+        FROM  XZHOUSE_PARA_ACCINFO a,XZHOUSE_PARA_CS b
+        WHERE a.agent=b.agent and a.orgid=#{OrgID,jdbcType=VARCHAR}
+        ORDER BY a.id
+    </select>
+
+    <select id="SelectAccinfoByOrgIDList"  resultMap="AccinfoResultMap">
+        SELECT a.id as id, a.orgid as orgid,a.orgname as orgname,a.jgaccount as jgaccount,a.jgname as jgname,
+               a.contractno as contractno,a.status as status,a.datadate as datadate,a.agent as agent,b.gjacc as gjacc,b.gjname as gjname
+        FROM  XZHOUSE_PARA_ACCINFO a,XZHOUSE_PARA_CS b
+        <where>
+            <if test="OrgIDList !=null and OrgIDList.size()!=0">
+                  and a.agent=b.agent and  a.orgid in
+                <foreach collection="OrgIDList" item="item" index="index" separator="," open="(" close=")">
+                    #{item}
+                </foreach>
+            </if>
+        </where>
+        ORDER BY a.id
+    </select>
+
+    <select id="SelectAccinfoByCorpInfo"  resultMap="AccinfoResultMap">
+        SELECT a.id as id, a.orgid as orgid,a.orgname as orgname,a.jgaccount as jgaccount,a.jgname as jgname,
+        a.contractno as contractno,a.status as status,a.datadate as datadate,a.agent as agent,b.gjacc as gjacc,b.gjname as gjname
+        FROM  XZHOUSE_PARA_ACCINFO a,XZHOUSE_PARA_CS b
+        <where>
+            <if test="payername !=null and payername !='' ">
+                and a.agent=b.agent and a.jgname=#{payername}
+            </if>
+            <if test="payeracc !=null and payeracc !='' ">
+                and a.jgaccount=#{payeracc}
+            </if>
+            <if test="contractno !=null and contractno !='' ">
+                and a.contractno=#{contractno}
+            </if>
+        </where>
         ORDER BY a.id
     </select>
 

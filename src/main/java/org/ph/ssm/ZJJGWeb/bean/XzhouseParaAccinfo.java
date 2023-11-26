@@ -12,6 +12,10 @@ public class XzhouseParaAccinfo {
   private String status;
   private String datadate;
 
+  private String agent;
+  private String gjacc;
+  private String gjname;
+
 
   public String getId() {
     return id;
@@ -84,4 +88,22 @@ public class XzhouseParaAccinfo {
     this.datadate = datadate;
   }
 
+  public String getAgent(){return agent;}
+
+  public void setAgent(String agent) {
+    this.agent = agent;
+  }
+  public String getGjacc(){return gjacc;}
+
+  public void setGjacc(String gjacc) {
+    this.gjacc = gjacc;
+  }
+
+  public String getGjname() {
+    return gjname;
+  }
+
+  public void setGjname(String gjname) {
+    this.gjname = gjname;
+  }
 }
