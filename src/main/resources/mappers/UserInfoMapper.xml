@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="org.ph.ssm.ZJJGWeb.dao.UserInfoMapper">
+
+    <resultMap id="UserRoleDeptResultMap" type="org.ph.ssm.ZJJGWeb.bean.XzhouseUserRoleDept">
+        <id column="id" jdbcType="INTEGER" property="id"/>
+        <result column="userCode" jdbcType="VARCHAR" property="userCode"/>
+        <result column="userName" jdbcType="VARCHAR" property="userName"/>
+        <result column="userPass" jdbcType="VARCHAR" property="userPass"/>
+        <result column="userDeptcode" jdbcType="VARCHAR" property="userDeptcode"/>
+        <result column="userEmail" jdbcType="VARCHAR" property="userEmail"/>
+        <result column="roleCode" jdbcType="VARCHAR" property="roleCode"/>
+        <result column="roleName" jdbcType="VARCHAR" property="roleName"/>
+        <result column="orgid" jdbcType="VARCHAR" property="orgid"/>
+        <result column="orgname" jdbcType="VARCHAR" property="orgname"/>
+        <result column="deptName" jdbcType="VARCHAR" property="deptName"/>
+        <result column="supRolecode" jdbcType="VARCHAR" property="supRolecode"/>
+    </resultMap>
+    <resultMap id="RoleResultMap" type="org.ph.ssm.ZJJGWeb.bean.XzhouseRoles">
+        <id column="id" jdbcType="INTEGER" property="id"/>
+        <result column="roleCode" jdbcType="VARCHAR" property="roleCode"/>
+        <result column="roleName" jdbcType="VARCHAR" property="roleName"/>
+        <result column="uptTime" jdbcType="VARCHAR" property="uptTime"/>
+    </resultMap>
+
+    <resultMap id="UserRoleResultMap" type="org.ph.ssm.ZJJGWeb.bean.XzhouseUserRole">
+        <id column="id" jdbcType="INTEGER" property="id"/>
+        <result column="userCode" jdbcType="VARCHAR" property="userCode"/>
+        <result column="roleCode" jdbcType="VARCHAR" property="roleCode"/>
+        <result column="uptTime" jdbcType="VARCHAR" property="uptTime"/>
+    </resultMap>
+
+    <select id="SelectCountDeptOrgs" parameterType="java.lang.String" resultType="java.lang.Integer">
+        select count(*) from XZHOUSE_DEPT_ORG a where a.deptcode=#{DeptCode,jdbcType=VARCHAR}
+    </select>
+    <select id="SelectUserRoleDept" parameterType="java.lang.String" resultMap="UserRoleDeptResultMap">
+        select d.id as id,d.user_code as userCode,d.user_name as userName,d.user_pass as userPass,g.deptcode as userDeptcode,
+               d.user_email as userEmail,e.role_code as roleCode,f.role_name as roleName,c.orgid as orgid,c.suprolecode as supRolecode,h.deptname as orgname,
+               g.deptname as deptName
+        from (select a.user_code as userCode,a.user_deptcode as userDepcode,b.orgid as orgid,i.role_code as suprolecode from
+              xzhouse_users a,xzhouse_dept_org b,xzhouse_user_role i where a.user_deptcode=b.deptcode and a.user_code=i.user_code ) c,
+             xzhouse_users d,xzhouse_user_role e,xzhouse_roles f,xzhouse_dept g,xzhouse_dept h
+        where c.userCode=#{UserCode,jdbcType=VARCHAR} and c.orgid in d.user_deptcode  and d.user_code=e.user_code
+        and e.role_code=f.role_code and c.userDepcode=g.deptcode and d.user_deptcode=h.deptcode
+    </select>
+
+    <select id="SelectSubUserRoleDept" parameterType="java.lang.String" resultMap="UserRoleDeptResultMap">
+        select d.id as id,d.user_code as userCode,d.user_name as userName,d.user_pass as userPass,g.deptcode as userDeptcode,
+               d.user_email as userEmail,e.role_code as roleCode,f.role_name as roleName,c.orgid as orgid,c.suprolecode as supRolecode,h.deptname as orgname,
+               g.deptname as deptName
+        from (select a.user_code as userCode,a.user_deptcode as userDepcode,b.orgid as orgid,i.role_code as suprolecode from
+             xzhouse_users a,xzhouse_dept_org b,xzhouse_user_role i where a.user_deptcode=b.deptcode and a.user_code=i.user_code ) c,
+             xzhouse_users d,xzhouse_user_role e,xzhouse_roles f,xzhouse_dept g,xzhouse_dept h
+        where c.userCode=#{UserCode,jdbcType=VARCHAR} and c.orgid in d.user_deptcode  and d.user_code=e.user_code
+        and e.role_code=f.role_code and c.userDepcode=g.deptcode and d.user_deptcode=h.deptcode and d.user_code=#{UserCode,jdbcType=VARCHAR}
+    </select>
+
+    <select id="SelectUserRoleDeptByDeptID" parameterType="java.lang.String" resultMap="UserRoleDeptResultMap">
+        SELECT a.id AS id,a.user_code AS userCode,a.user_name AS userName,a.user_pass AS userPass,
+               a.user_deptcode AS userDeptcode,a.user_email AS userEmail,b.role_code AS roleCode,c.role_name AS roleName,d.deptname AS deptName
+        FROM   xzhouse_users a,xzhouse_user_role b,xzhouse_roles c,xzhouse_dept d
+        WHERE  a.user_code=#{UserCode,jdbcType=VARCHAR} and a.user_code=b.user_code and b.role_code=c.role_code and a.user_deptcode=d.deptcode
+    </select>
+    <select id="SelectSubUserRoles" parameterType="java.lang.String" resultMap="RoleResultMap">
+        SELECT a.id as id,a.role_code as roleCode,a.role_name as roleName,a.upt_time as uptTime
+        FROM XZHOUSE_ROLES a
+        WHERE a.role_code>=#{RoleCode,jdbcType=VARCHAR}
+    </select>
+
+    <select id="SelectUserRoleByUser" parameterType="java.lang.String" resultMap="UserRoleResultMap">
+        SELECT a.id as id,a.user_code as userCode,a.role_code as roleCode,a.upt_time as uptTime
+        FROM XZHOUSE_USER_ROLE a
+        WHERE a.user_code=#{UserCode,jdbcType=VARCHAR}
+    </select>
+
+    <update id="UpdateUserPass" parameterType="map">
+        update XZHOUSE_USERS
+        set user_pass=#{NewPass,jdbcType=VARCHAR},upt_time=#{UptDate,jdbcType=VARCHAR}
+        where user_code = #{UserCode,jdbcType=VARCHAR} and
+            user_name=#{UserName,jdbcType=VARCHAR} and
+            user_pass=#{OriPass,jdbcType=VARCHAR}
+    </update>
+</mapper>

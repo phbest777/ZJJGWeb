@@ -1,0 +1,401 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="org.ph.ssm.ZJJGWeb.dao.AccDebtMapper">
+    <resultMap id="ZjjzResultMap" type="org.ph.ssm.ZJJGWeb.bean.XzhouseTransZjjz">
+        <id column="id" jdbcType="INTEGER" property="id"/>
+        <result column="jgaccount" jdbcType="VARCHAR" property="jgaccount"/>
+        <result column="jgname" jdbcType="VARCHAR" property="jgname"/>
+        <result column="orgid" jdbcType="VARCHAR" property="orgid"/>
+        <result column="orgname" jdbcType="VARCHAR" property="orgname"/>
+        <result column="agent" jdbcType="VARCHAR" property="agent"/>
+        <result column="cardno" jdbcType="VARCHAR" property="cardno"/>
+        <result column="xybh" jdbcType="VARCHAR" property="xybh"/>
+        <result column="recordno" jdbcType="VARCHAR" property="recordno"/>
+        <result column="ckr" jdbcType="VARCHAR" property="ckr"/>
+        <result column="price" jdbcType="DECIMAL" property="price"/>
+        <result column="operator" jdbcType="VARCHAR" property="operator"/>
+        <result column="zjxz" jdbcType="VARCHAR" property="zjxz"/>
+        <result column="flag" jdbcType="VARCHAR" property="flag"/>
+        <result column="cklsh" jdbcType="VARCHAR" property="cklsh"/>
+        <result column="transdate"    jdbcType="VARCHAR" property="transdate"/>
+        <result column="cklb"    jdbcType="VARCHAR" property="cklb"/>
+        <result column="isjz"    jdbcType="VARCHAR" property="isjz"/>
+    </resultMap>
+
+    <resultMap id="ZjjzNewResultMap" type="org.ph.ssm.ZJJGWeb.bean.XzhouseTransZjjzNew">
+        <id column="id" jdbcType="INTEGER" property="id"/>
+        <result column="jgaccount" jdbcType="VARCHAR" property="jgaccount"/>
+        <result column="jgname" jdbcType="VARCHAR" property="jgname"/>
+        <result column="orgid" jdbcType="VARCHAR" property="orgid"/>
+        <result column="orgname" jdbcType="VARCHAR" property="orgname"/>
+        <result column="agent" jdbcType="VARCHAR" property="agent"/>
+        <result column="cardno" jdbcType="VARCHAR" property="cardno"/>
+        <result column="xybh" jdbcType="VARCHAR" property="xybh"/>
+        <result column="recordno" jdbcType="VARCHAR" property="recordno"/>
+        <result column="ckr" jdbcType="VARCHAR" property="ckr"/>
+        <result column="price" jdbcType="DECIMAL" property="price"/>
+        <result column="operator" jdbcType="VARCHAR" property="operator"/>
+        <result column="zjxz" jdbcType="VARCHAR" property="zjxz"/>
+        <result column="flag" jdbcType="VARCHAR" property="flag"/>
+        <result column="cklsh" jdbcType="VARCHAR" property="cklsh"/>
+        <result column="transdate"    jdbcType="VARCHAR" property="transdate"/>
+        <result column="cklb"    jdbcType="VARCHAR" property="cklb"/>
+        <result column="isjz"    jdbcType="VARCHAR" property="isjz"/>
+        <result column="areacode"    jdbcType="VARCHAR" property="areacode"/>
+    </resultMap>
+
+    <resultMap id="JzRecordInfoMap" type="org.ph.ssm.ZJJGWeb.bean.XzhouseMoneyaccount">
+        <id column="id" jdbcType="INTEGER" property="id"/>
+        <result column="xybh" jdbcType="VARCHAR" property="xybh"/>
+        <result column="recordno" jdbcType="VARCHAR" property="recordno"/>
+        <result column="ckr" jdbcType="VARCHAR" property="ckr"/>
+        <result column="price" jdbcType="DECIMAL" property="price"/>
+        <result column="operator" jdbcType="VARCHAR" property="operator"/>
+        <result column="cklb" jdbcType="VARCHAR" property="cklb"/>
+        <result column="cklbname" jdbcType="VARCHAR" property="cklbname"/>
+        <result column="flag" jdbcType="VARCHAR" property="flag"/>
+        <result column="flaganme" jdbcType="VARCHAR" property="flaganme"/>
+        <result column="cklsh" jdbcType="VARCHAR" property="cklsh"/>
+        <result column="code" jdbcType="VARCHAR" property="code"/>
+        <result column="msg" jdbcType="VARCHAR" property="msg"/>
+        <result column="datadate" jdbcType="VARCHAR" property="datadate"/>
+        <result column="datatime" jdbcType="VARCHAR" property="datatime"/>
+    </resultMap>
+
+
+
+
+    <select id="SelectJzinfoByOrgIDS"  resultMap="ZjjzResultMap">
+        SELECT a.id as id, b.jgaccount as jgaccount,b.jgname as jgname,b.orgid as orgid,b.orgname as orgname,a.agent as agent,a.cardno as cardno,
+        a.xybh as xybh,a.recordno as recordno,a.ckr as ckr,a.price as price,a.operator as operator,
+        a.zjxz as zjxz, a.flag as flag, a.cklsh as cklsh,a.transdate as transdate,a.cklb as cklb,a.isjz as isjz
+        FROM  XZHOUSE_TRANS_ZJJZ a,XZHOUSE_PARA_ACCINFO b
+        <where>
+            <if test="OrgIDList !=null and OrgIDList.size()!=0">
+                and a.xybh=b.contractno and b.orgid in
+                <foreach collection="OrgIDList" item="item" index="index" separator="," open="(" close=")">
+                    #{item}
+                </foreach>
+            </if>
+        </where>
+        ORDER BY a.transdate desc
+    </select>
+
+
+    <select id="SelectJzinfoByMultiChoose" parameterType="map" resultMap="ZjjzResultMap">
+        SELECT a.id as id, b.jgaccount as jgaccount,b.jgname as jgname,b.orgid as orgid,b.orgname as orgname,a.agent as agent,a.cardno as cardno,
+        a.xybh as xybh,a.recordno as recordno,a.ckr as ckr,a.price as price,a.operator as operator,
+        a.zjxz as zjxz, a.flag as flag, a.cklsh as cklsh,a.transdate as transdate,a.cklb as cklb,a.isjz as isjz
+        FROM  XZHOUSE_TRANS_ZJJZ a,XZHOUSE_PARA_ACCINFO b
+        <where>
+            a.xybh=b.contractno
+            <if test="payername !=null and payername !='' ">
+                and b.jgname=#{payername}
+            </if>
+            <if test="payeracc !=null and payeracc !='' ">
+                and b.jgaccount=#{payeracc}
+            </if>
+            <if test="contractno !=null and contractno !='' ">
+                and a.xybh=#{contractno}
+            </if>
+            <if test="price !=null and price !='' ">
+                and a.price=#{price}
+            </if>
+            <if test="isjz !=null and isjz !='' and isjz !='3'.toString()">
+                and a.isjz=#{isjz}
+            </if>
+            <if test="startdatadate !=null and startdatadate !='' ">
+                and a.transdate &gt;=#{startdatadate}
+            </if>
+            <if test="enddatadate !=null and enddatadate !='' ">
+                and a.transdate &lt;=#{enddatadate}
+            </if>
+            <if test="recordno !=null and recordno !='' ">
+                and a.recordno=#{recordno}
+            </if>
+            <if test="ckr !=null and ckr !='' ">
+                and a.ckr like '%${ckr}%'
+            </if>
+            <if test="flag !=null and flag !='' and flag !='1'.toString()">
+                and a.flag=#{flag}
+            </if>
+            and b.orgid=#{orgid}
+        </where>
+        ORDER BY a.transdate desc
+    </select>
+
+    <select id="SelectJzinfoByMultiChooseWithOrgIDS" parameterType="map" resultMap="ZjjzResultMap">
+        SELECT a.id as id, b.jgaccount as jgaccount,b.jgname as jgname,b.orgid as orgid,b.orgname as orgname,a.agent as agent,a.cardno as cardno,
+        a.xybh as xybh,a.recordno as recordno,a.ckr as ckr,a.price as price,a.operator as operator,
+        a.zjxz as zjxz, a.flag as flag, a.cklsh as cklsh,a.transdate as transdate,a.cklb as cklb,a.isjz as isjz
+        FROM  XZHOUSE_TRANS_ZJJZ a,XZHOUSE_PARA_ACCINFO b
+        <where>
+             a.xybh=b.contractno
+            <if test="payername !=null and payername !='' ">
+               and b.jgname=#{payername}
+            </if>
+            <if test="payeracc !=null and payeracc !='' ">
+                and b.jgaccount=#{payeracc}
+            </if>
+            <if test="contractno !=null and contractno !='' ">
+                and a.xybh=#{contractno}
+            </if>
+            <if test="price !=null and price !='' ">
+                and a.price=#{price}
+            </if>
+            <if test="isjz !=null and isjz !='' and isjz !='3'.toString()">
+                and a.isjz=#{isjz}
+            </if>
+            <if test="startdatadate !=null and startdatadate !='' ">
+                and a.transdate &gt;=#{startdatadate}
+            </if>
+            <if test="enddatadate !=null and enddatadate !='' ">
+                and a.transdate &lt;=#{enddatadate}
+            </if>
+            <if test="recordno !=null and recordno !='' ">
+                and a.recordno=#{recordno}
+            </if>
+            <if test="ckr !=null and ckr !='' ">
+                and a.ckr like '%${ckr}%'
+            </if>
+            <if test="flag !=null and flag !='' and flag !='1'.toString()">
+                and a.flag=#{flag}
+            </if>
+            <if test="OrgIDList !=null and OrgIDList.size()!=0">
+                and b.orgid in
+                <foreach collection="OrgIDList" item="item" index="index" separator="," open="(" close=")">
+                    #{item}
+                </foreach>
+            </if>
+        </where>
+        ORDER BY a.transdate desc
+    </select>
+
+    <select id="SelectJzinfoNewByOrgIDS"  resultMap="ZjjzNewResultMap">
+        SELECT a.id as id, b.jgaccount as jgaccount,b.jgname as jgname,b.orgid as orgid,b.orgname as orgname,a.agent as agent,a.cardno as cardno,
+        a.xybh as xybh,a.recordno as recordno,a.ckr as ckr,a.price as price,a.operator as operator,
+        a.zjxz as zjxz, a.flag as flag, a.cklsh as cklsh,a.transdate as transdate,a.cklb as cklb,a.isjz as isjz
+        FROM  XZHOUSE_TRANS_ZJJZ_NEW a,XZHOUSE_PARA_ACCINFO b
+        <where>
+            <if test="OrgIDList !=null and OrgIDList.size()!=0">
+                and a.xybh=b.contractno and b.orgid in
+                <foreach collection="OrgIDList" item="item" index="index" separator="," open="(" close=")">
+                    #{item}
+                </foreach>
+            </if>
+        </where>
+        ORDER BY a.transdate desc
+    </select>
+
+
+    <select id="SelectJzinfoNewByMultiChoose" parameterType="map" resultMap="ZjjzNewResultMap">
+        SELECT a.id as id, b.jgaccount as jgaccount,b.jgname as jgname,b.orgid as orgid,b.orgname as orgname,a.agent as agent,a.cardno as cardno,
+        a.xybh as xybh,a.recordno as recordno,a.ckr as ckr,a.price as price,a.operator as operator,
+        a.zjxz as zjxz, a.flag as flag, a.cklsh as cklsh,a.transdate as transdate,a.cklb as cklb,a.isjz as isjz
+        FROM  XZHOUSE_TRANS_ZJJZ_NEW a,XZHOUSE_PARA_ACCINFO b
+        <where>
+            a.xybh=b.contractno
+            <if test="payername !=null and payername !='' ">
+                and b.jgname=#{payername}
+            </if>
+            <if test="payeracc !=null and payeracc !='' ">
+                and b.jgaccount=#{payeracc}
+            </if>
+            <if test="contractno !=null and contractno !='' ">
+                and a.xybh=#{contractno}
+            </if>
+            <if test="price !=null and price !='' ">
+                and a.price=#{price}
+            </if>
+            <if test="isjz !=null and isjz !='' and isjz !='3'.toString()">
+                and a.isjz=#{isjz}
+            </if>
+            <if test="startdatadate !=null and startdatadate !='' ">
+                and a.transdate &gt;=#{startdatadate}
+            </if>
+            <if test="enddatadate !=null and enddatadate !='' ">
+                and a.transdate &lt;=#{enddatadate}
+            </if>
+            <if test="recordno !=null and recordno !='' ">
+                and a.recordno=#{recordno}
+            </if>
+            <if test="ckr !=null and ckr !='' ">
+                and a.ckr like '%${ckr}%'
+            </if>
+            <if test="flag !=null and flag !='' and flag !='1'.toString()">
+                and a.flag=#{flag}
+            </if>
+            and b.orgid=#{orgid}
+        </where>
+        ORDER BY a.transdate desc
+    </select>
+
+    <select id="SelectJzinfoNewByMultiChooseWithOrgIDS" parameterType="map" resultMap="ZjjzNewResultMap">
+        SELECT a.id as id, b.jgaccount as jgaccount,b.jgname as jgname,b.orgid as orgid,b.orgname as orgname,a.agent as agent,a.cardno as cardno,
+        a.xybh as xybh,a.recordno as recordno,a.ckr as ckr,a.price as price,a.operator as operator,
+        a.zjxz as zjxz, a.flag as flag, a.cklsh as cklsh,a.transdate as transdate,a.cklb as cklb,a.isjz as isjz
+        FROM  XZHOUSE_TRANS_ZJJZ_NEW a,XZHOUSE_PARA_ACCINFO b
+        <where>
+            a.xybh=b.contractno
+            <if test="payername !=null and payername !='' ">
+                and b.jgname=#{payername}
+            </if>
+            <if test="payeracc !=null and payeracc !='' ">
+                and b.jgaccount=#{payeracc}
+            </if>
+            <if test="contractno !=null and contractno !='' ">
+                and a.xybh=#{contractno}
+            </if>
+            <if test="price !=null and price !='' ">
+                and a.price=#{price}
+            </if>
+            <if test="isjz !=null and isjz !='' and isjz !='3'.toString()">
+                and a.isjz=#{isjz}
+            </if>
+            <if test="startdatadate !=null and startdatadate !='' ">
+                and a.transdate &gt;=#{startdatadate}
+            </if>
+            <if test="enddatadate !=null and enddatadate !='' ">
+                and a.transdate &lt;=#{enddatadate}
+            </if>
+            <if test="recordno !=null and recordno !='' ">
+                and a.recordno=#{recordno}
+            </if>
+            <if test="ckr !=null and ckr !='' ">
+                and a.ckr like '%${ckr}%'
+            </if>
+            <if test="flag !=null and flag !='' and flag !='1'.toString()">
+                and a.flag=#{flag}
+            </if>
+            <if test="OrgIDList !=null and OrgIDList.size()!=0">
+                and b.orgid in
+                <foreach collection="OrgIDList" item="item" index="index" separator="," open="(" close=")">
+                    #{item}
+                </foreach>
+            </if>
+        </where>
+        ORDER BY a.transdate desc
+    </select>
+
+    <insert id="insertTransJzInfo" parameterType="org.ph.ssm.ZJJGWeb.bean.XzhouseTransZjjz">
+        insert into XZHOUSE_TRANS_ZJJZ(agent,cardno,xybh,recordno,ckr,price,operator,zjxz,flag,cklsh,transdate,cklb,isjz)
+        values(#{agent},#{cardno},#{xybh},#{recordno},#{ckr},#{price},#{operator},#{zjxz},
+               #{flag},#{cklsh},#{transdate},#{cklb},#{isjz})
+    </insert>
+
+    <insert id="insertTransJzInfoNew" parameterType="org.ph.ssm.ZJJGWeb.bean.XzhouseTransZjjzNew">
+        insert into XZHOUSE_TRANS_ZJJZ_NEW(agent,cardno,xybh,recordno,ckr,price,operator,zjxz,flag,cklsh,transdate,cklb,isjz,areacode)
+        values(#{agent},#{cardno},#{xybh},#{recordno},#{ckr},#{price},#{operator},#{zjxz},
+               #{flag},#{cklsh},#{transdate},#{cklb},#{isjz},#{areacode})
+    </insert>
+    <insert id="insertMoneyAccountInfo" parameterType="org.ph.ssm.ZJJGWeb.bean.XzhouseMoneyaccount">
+        insert into XZHOUSE_MONEYACCOUNT
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="xybh != null">
+                xybh,
+            </if>
+            <if test="recordno != null">
+                recordno,
+            </if>
+            <if test="ckr != null">
+                ckr,
+            </if>
+            <if test="price != null">
+                price,
+            </if>
+            <if test="operator != null">
+                operator,
+            </if>
+            <if test="cklb != null">
+                cklb,
+            </if>
+            <if test="cklbname != null">
+                cklbname,
+            </if>
+            <if test="flag != null">
+                flag,
+            </if>
+            <if test="flaganme != null">
+                flaganme,
+            </if>
+            <if test="cklsh != null">
+                cklsh,
+            </if>
+            <if test="code != null">
+                code,
+            </if>
+            <if test="msg != null">
+                msg,
+            </if>
+            <if test="datadate != null">
+                datadate,
+            </if>
+            <if test="datatime != null">
+                datatime,
+            </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+
+            <if test="xybh != null">
+                #{xybh,jdbcType=VARCHAR},
+            </if>
+            <if test="recordno != null">
+                #{recordno,jdbcType=VARCHAR},
+            </if>
+            <if test="ckr != null">
+                #{ckr,jdbcType=VARCHAR},
+            </if>
+            <if test="price != null">
+                #{price,jdbcType=DOUBLE},
+            </if>
+            <if test="operator != null">
+                #{operator,jdbcType=VARCHAR},
+            </if>
+            <if test="cklb != null">
+                #{cklb,jdbcType=VARCHAR},
+            </if>
+            <if test="cklbname != null">
+                #{cklbname,jdbcType=VARCHAR},
+            </if>
+            <if test="flag != null">
+                #{flag,jdbcType=VARCHAR},
+            </if>
+            <if test="flaganme != null">
+                #{flaganme,jdbcType=VARCHAR},
+            </if>
+            <if test="cklsh != null">
+                #{cklsh,jdbcType=VARCHAR},
+            </if>
+            <if test="code != null">
+                #{code,jdbcType=VARCHAR},
+            </if>
+            <if test="msg != null">
+                #{msg,jdbcType=VARCHAR},
+            </if>
+            <if test="datadate != null">
+                #{datadate,jdbcType=VARCHAR},
+            </if>
+            <if test="datatime != null">
+                #{datatime,jdbcType=VARCHAR},
+            </if>
+        </trim>
+    </insert>
+    <update id="updateJzInfoByIsJz" parameterType="map">
+        update XZHOUSE_TRANS_ZJJZ
+        set isjz=#{isjz,jdbcType=VARCHAR},recordno=#{recordno,jdbcType=VARCHAR},ckr=#{ckr,jdbcType=VARCHAR}
+        where xybh = #{xybh,jdbcType=VARCHAR} and
+            id=#{id,jdbcType=INTEGER} and
+            price=#{price,jdbcType=DOUBLE} and
+            cklsh=#{cklsh,jdbcType=VARCHAR} and
+            transdate=#{transdate,jdbcType=VARCHAR}
+    </update>
+    <update id="updateJzInfoNewByIsJz" parameterType="map">
+        update XZHOUSE_TRANS_ZJJZ_NEW
+        set isjz=#{isjz,jdbcType=VARCHAR},recordno=#{recordno,jdbcType=VARCHAR},ckr=#{ckr,jdbcType=VARCHAR}
+        where xybh = #{xybh,jdbcType=VARCHAR} and
+            id=#{id,jdbcType=INTEGER} and
+            price=#{price,jdbcType=DOUBLE} and
+            cklsh=#{cklsh,jdbcType=VARCHAR} and
+            transdate=#{transdate,jdbcType=VARCHAR}
+    </update>
+</mapper>

@@ -1,0 +1,109 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="org.ph.ssm.ZJJGWeb.dao.ZfInfoMapper">
+    <resultMap id="ZfinfoResultMap" type="org.ph.ssm.ZJJGWeb.bean.XzhouseParaZfacc">
+        <id column="id" jdbcType="INTEGER" property="id"/>
+        <result column="rcvacc" jdbcType="VARCHAR" property="rcvacc"/>
+        <result column="rcvname" jdbcType="VARCHAR" property="rcvname"/>
+        <result column="orgid" jdbcType="VARCHAR" property="orgid"/>
+        <result column="orgname" jdbcType="VARCHAR" property="orgname"/>
+        <result column="status" jdbcType="VARCHAR" property="status"/>
+        <result column="datadate" jdbcType="VARCHAR" property="datadate"/>
+        <result column="agent" jdbcType="VARCHAR" property="agent"/>
+    </resultMap>
+
+
+    <resultMap id="ZftransResultMap" type="org.ph.ssm.ZJJGWeb.bean.XzhouseTransZfinfo">
+        <id column="id" jdbcType="INTEGER" property="id"/>
+        <result column="payeracc" jdbcType="VARCHAR" property="payeracc"/>
+        <result column="payername" jdbcType="VARCHAR" property="payername"/>
+        <result column="rcvacc" jdbcType="VARCHAR" property="rcvacc"/>
+        <result column="rcvname" jdbcType="VARCHAR" property="rcvname"/>
+        <result column="bankno" jdbcType="VARCHAR" property="bankno"/>
+        <result column="bankname" jdbcType="VARCHAR" property="bankname"/>
+        <result column="transtype" jdbcType="VARCHAR" property="transtype"/>
+        <result column="amt" jdbcType="DECIMAL" property="amt"/>
+        <result column="gapslsh" jdbcType="VARCHAR" property="gapslsh"/>
+        <result column="hxlsh" jdbcType="VARCHAR" property="hxlsh"/>
+        <result column="orgid" jdbcType="VARCHAR" property="orgid"/>
+        <result column="orgname" jdbcType="VARCHAR" property="orgname"/>
+        <result column="addwords" jdbcType="VARCHAR" property="addwords"/>
+        <result column="iszf" jdbcType="VARCHAR" property="iszf"/>
+        <result column="datadate" jdbcType="VARCHAR" property="datadate"/>
+        <result column="datatime" jdbcType="VARCHAR" property="datatime"/>
+        <result column="agent" jdbcType="VARCHAR" property="agent"/>
+        <result column="hxtransdate" jdbcType="VARCHAR" property="hxtransdate"/>
+        <result column="hxtranstime" jdbcType="VARCHAR" property="hxtranstime"/>
+    </resultMap>
+
+    <select id="SelectZfTransPayed" resultType="Integer">
+        select count(*) from XZHOUSE_TRANS_ZFINFO where iszf='9'
+    </select>
+    <select id="SelectZfTransAuthed" resultType="Integer">
+        select count(*) from XZHOUSE_TRANS_ZFINFO where iszf='5'
+    </select>
+    <select id="SelectZfTransOrigin" resultType="Integer">
+        select count(*) from XZHOUSE_TRANS_ZFINFO where iszf='0'
+    </select>
+    <select id="SelectZfAccInfoByAll"  resultMap="ZfinfoResultMap">
+        SELECT a.id as id, a.rcvacc as rcvacc,a.rcvname as rcvname,a.orgid as orgid,a.orgname as orgname,
+               a.status as status,a.datadate as datadate,a.agent as agent
+        FROM  XZHOUSE_PARA_ZFACC a
+        ORDER BY a.id
+    </select>
+
+    <select id="SelectZfTransByAll"  parameterType="map" resultMap="ZftransResultMap">
+        SELECT a.id as id,a.payeracc as payeracc,a.payername as payername,a.rcvacc as rcvacc,a.rcvname as rcvname,
+               a.bankno as bankno,a.bankname as bankname,a.transtype as transtype,a.amt as amt,a.contractno as contractno,
+               a.gapslsh as gapslsh,a.hxlsh as hxlsh,a.orgid as orgid,a.orgname as orgname,a.addwords as addwords,a.iszf as iszf,
+               a.datadate as datadate,a.datatime as datatime,a.agent as agent,a.hxtransdate as hxtransdate,a.hxtranstime as hxtranstime
+        FROM  XZHOUSE_TRANS_ZFINFO a
+        <where>
+            <if test="zfflag !=null and zfflag !='' and zfflag !='2'.toString()">
+                and a.iszf=#{zfflag}
+            </if>
+        </where>
+        ORDER BY a.datadate desc,a.datatime desc
+    </select>
+
+
+    <select id="SelectZfTransByMultiChoose" parameterType="map" resultMap="ZftransResultMap">
+        SELECT a.id as id,a.payeracc as payeracc,a.payername as payername,a.rcvacc as rcvacc,a.rcvname as rcvname,
+        a.bankno as bankno,a.bankname as bankname,a.transtype as transtype,a.amt as amt,a.contractno as contractno,
+        a.gapslsh as gapslsh,a.hxlsh as hxlsh,a.orgid as orgid,a.orgname as orgname,a.addwords as addwords,a.iszf as iszf,
+        a.datadate as datadate,a.datatime as datatime,a.agent as agent,a.hxtransdate as hxtransdate,a.hxtranstime as hxtranstime
+        FROM  XZHOUSE_TRANS_ZFINFO a
+        <where>
+            <if test="rcvacc !=null and rcvacc !='' ">
+                and a.rcvacc=#{rcvacc}
+            </if>
+            <if test="rcvname !=null and rcvname !='' ">
+                and a.rcvname=#{rcvname}
+            </if>
+            <if test="amt !=null and amt !='' ">
+                and a.amt=#{amt}
+            </if>
+            <if test="iszf !=null and iszf !='' and iszf !='2'.toString()">
+                and a.iszf=#{iszf}
+            </if>
+            <if test="startdatadate !=null and startdatadate !='' ">
+                and a.datadate &gt;=#{startdatadate}
+            </if>
+            <if test="enddatadate !=null and enddatadate !='' ">
+                and a.datadate &lt;=#{enddatadate}
+            </if>
+        </where>
+        ORDER BY a.datadate desc,a.datatime desc
+    </select>
+
+
+    <update id="updateZfInfoByIsAuth" parameterType="map">
+        update XZHOUSE_TRANS_ZFINFO
+        set iszf=#{iszf,jdbcType=VARCHAR}
+        where rcvacc = #{rcvacc,jdbcType=VARCHAR} and
+            contractno=#{contractno,jdbcType=VARCHAR} and
+            amt=#{amt,jdbcType=DOUBLE} and
+            addwords=#{zflsh,jdbcType=VARCHAR} and
+            datadate=#{datadate,jdbcType=VARCHAR}
+    </update>
+</mapper>
