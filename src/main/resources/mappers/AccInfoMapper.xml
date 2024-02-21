@@ -57,19 +57,5 @@
         ORDER BY a.id
     </select>
 
-    <select id="SelectAccinfoByOrgIDList"  resultMap="AccinfoResultMap">
-        SELECT a.id as id, a.orgid as orgid,a.orgname as orgname,a.jgaccount as jgaccount,a.jgname as jgname,
-               a.contractno as contractno,a.status as status,a.datadate as datadate
-        FROM  XZHOUSE_PARA_ACCINFO a
-        <where>
-            <if test="OrgIDList !=null and OrgIDList.size()!=0">
-                and a.orgid in
-                <foreach collection="OrgIDList" item="item" index="index" separator="," open="(" close=")">
-                    #{item}
-                </foreach>
-            </if>
-        </where>
-        ORDER BY a.id
-    </select>
 
 </mapper>
