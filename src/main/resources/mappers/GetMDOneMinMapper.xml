@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="org.ph.ssm.ZJJGWeb.dao.GetMDOneMinMapper">
+    <resultMap id="MDOneminResultMap" type="org.ph.ssm.ZJJGWeb.bean.QuantFutureMdOnemin">
+        <id column="id" jdbcType="INTEGER" property="id"/>
+        <result column="tradingday" jdbcType="VARCHAR" property="tradingday"/>
+        <result column="instrumentid" jdbcType="VARCHAR" property="instrumentid"/>
+        <result column="lastprice" jdbcType="DECIMAL" property="lastprice"/>
+        <result column="highestprice" jdbcType="DECIMAL" property="highestprice"/>
+        <result column="lowestprice" jdbcType="DECIMAL" property="lowestprice"/>
+        <result column="presettlementprice" jdbcType="DECIMAL" property="presettlementprice"/>
+        <result column="precloseprice" jdbcType="DECIMAL" property="precloseprice"/>
+        <result column="preopeninterest" jdbcType="DECIMAL" property="preopeninterest"/>
+        <result column="openprice" jdbcType="DECIMAL" property="openprice"/>
+        <result column="volume" jdbcType="INTEGER" property="volume"/>
+        <result column="turnover" jdbcType="DECIMAL" property="turnover"/>
+        <result column="openinterest" jdbcType="DECIMAL" property="openinterest"/>
+        <result column="updatetime" jdbcType="VARCHAR" property="updatetime"/>
+        <result column="updateminute" jdbcType="VARCHAR" property="updateminute"/>
+        <result column="upratio" jdbcType="DECIMAL" property="upratio"/>
+        <result column="interestminus" jdbcType="DECIMAL" property="interestminus"/>
+        <result column="interestratio" jdbcType="DECIMAL" property="interestratio"/>
+        <result column="oneminopenprice" jdbcType="DECIMAL" property="oneminopenprice"/>
+        <result column="averprice" jdbcType="DECIMAL" property="averprice"/>
+        <result column="oneminupratio" jdbcType="DECIMAL" property="oneminupratio"/>
+        <result column="oneminupprice" jdbcType="DECIMAL" property="oneminupprice"/>
+        <result column="onetimestamp" jdbcType="VARCHAR" property="onetimestamp"/>
+    </resultMap>
+
+
+    <select id="SelectMDOneminByCode" parameterType="map" resultMap="MDOneminResultMap">
+        SELECT a.id as id, a.tradingday as tradingday,a.instrumentid as instrumentid,a.lastprice as lastprice,a.highestprice as highestprice,
+               a.lowestprice as lowestprice,a.presettlementprice as presettlementprice,a.precloseprice as precloseprice,a.preopeninterest as preopeninterest,
+               a.openprice as openprice,a.volume as volume,a.turnover as turnover,a.openinterest as openinterest,a.updatetime as updatetime,a.updateminute as updateminute,
+               a.upratio as upratio,a.interestminus as interestminus,a.interestratio as interestratio,a.oneminopenprice as oneminopenprice,a.averprice as averprice,
+               a.oneminupratio as oneminupratio,a.oneminupprice as oneminupprice,a.onetimestamp as onetimestamp
+        FROM  QUANT_FUTURE_MD_ONEMIN a
+        WHERE a.instrumentid=#{InstrumentID,jdbcType=VARCHAR} and a.tradingday=#{TradingDay} and id>5261 and id&lt; 5280
+        ORDER BY a.id
+    </select>
+
+    <select id="SelectMDOneminByMin" parameterType="map" resultMap="MDOneminResultMap">
+        SELECT a.id as id, a.tradingday as tradingday,a.instrumentid as instrumentid,a.lastprice as lastprice,a.highestprice as highestprice,
+               a.lowestprice as lowestprice,a.presettlementprice as presettlementprice,a.precloseprice as precloseprice,a.preopeninterest as preopeninterest,
+               a.openprice as openprice,a.volume as volume,a.turnover as turnover,a.openinterest as openinterest,a.updatetime as updatetime,a.updateminute as updateminute,
+               a.upratio as upratio,a.interestminus as interestminus,a.interestratio as interestratio,a.oneminopenprice as oneminopenprice,a.averprice as averprice,
+               a.oneminupratio as oneminupratio,a.oneminupprice as oneminupprice,a.onetimestamp as onetimestamp
+        FROM  QUANT_FUTURE_MD_ONEMIN a
+        WHERE a.instrumentid=#{InstrumentID,jdbcType=VARCHAR} and a.tradingday=#{TradingDay} and a.updateminute=#{UpdateMin}
+        ORDER BY a.id
+    </select>
+
+
+</mapper>
