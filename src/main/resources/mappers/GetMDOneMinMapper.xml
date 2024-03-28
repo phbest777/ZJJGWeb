@@ -35,7 +35,7 @@
                a.upratio as upratio,a.interestminus as interestminus,a.interestratio as interestratio,a.oneminopenprice as oneminopenprice,a.averprice as averprice,
                a.oneminupratio as oneminupratio,a.oneminupprice as oneminupprice,a.onetimestamp as onetimestamp
         FROM  QUANT_FUTURE_MD_ONEMIN a
-        WHERE a.instrumentid=#{InstrumentID,jdbcType=VARCHAR} and a.tradingday=#{TradingDay} and id>5261 and id&lt; 5280
+        WHERE a.instrumentid=#{InstrumentID,jdbcType=VARCHAR} and a.tradingday=#{TradingDay} and id=9923
         ORDER BY a.id
     </select>
 
