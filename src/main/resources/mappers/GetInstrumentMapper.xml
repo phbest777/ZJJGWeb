@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="org.ph.ssm.ZJJGWeb.dao.GetInstrumentMapper">
+    <resultMap id="InstrumentResultMap" type="org.ph.ssm.ZJJGWeb.bean.QuantFutureInstrument">
+        <id column="id" jdbcType="INTEGER" property="id"/>
+        <result column="exchangeid" jdbcType="VARCHAR" property="exchangeid"/>
+        <result column="instrumentname" jdbcType="VARCHAR" property="instrumentname"/>
+        <result column="productclass" jdbcType="VARCHAR" property="productclass"/>
+        <result column="deliveryyear" jdbcType="VARCHAR" property="deliveryyear"/>
+        <result column="deliverymonth" jdbcType="VARCHAR" property="deliverymonth"/>
+        <result column="maxmarketordervolume" jdbcType="INTEGER" property="maxmarketordervolume"/>
+        <result column="minmarketordervolume" jdbcType="INTEGER" property="minmarketordervolume"/>
+        <result column="maxlimitordervolume" jdbcType="INTEGER" property="maxlimitordervolume"/>
+        <result column="minlimitordervolume" jdbcType="INTEGER" property="minlimitordervolume"/>
+        <result column="volumemultiple" jdbcType="VARCHAR" property="volumemultiple"/>
+        <result column="pricetick" jdbcType="DECIMAL" property="pricetick"/>
+        <result column="createdate" jdbcType="VARCHAR" property="createdate"/>
+        <result column="opendate" jdbcType="VARCHAR" property="opendate"/>
+        <result column="expiredate" jdbcType="VARCHAR" property="expiredate"/>
+        <result column="startdelivdate" jdbcType="VARCHAR" property="startdelivdate"/>
+        <result column="enddelivdate" jdbcType="VARCHAR" property="enddelivdate"/>
+        <result column="instlifephase" jdbcType="VARCHAR" property="instlifephase"/>
+        <result column="istrading" jdbcType="VARCHAR" property="istrading"/>
+        <result column="positiontype" jdbcType="VARCHAR" property="positiontype"/>
+        <result column="positiondatetype" jdbcType="VARCHAR" property="positiondatetype"/>
+        <result column="longmarginratio" jdbcType="DECIMAL" property="longmarginratio"/>
+        <result column="shortmarginratio" jdbcType="DECIMAL" property="shortmarginratio"/>
+        <result column="maxmarginsidealgorithm" jdbcType="VARCHAR" property="maxmarginsidealgorithm"/>
+        <result column="strikeprice" jdbcType="DECIMAL" property="strikeprice"/>
+        <result column="optionstype" jdbcType="VARCHAR" property="optionstype"/>
+        <result column="underlyingmultiple" jdbcType="DECIMAL" property="underlyingmultiple"/>
+        <result column="combinationtype" jdbcType="VARCHAR" property="combinationtype"/>
+        <result column="instrumentid" jdbcType="VARCHAR" property="instrumentid"/>
+        <result column="exchangeinstid" jdbcType="VARCHAR" property="exchangeinstid"/>
+        <result column="productid" jdbcType="VARCHAR" property="productid"/>
+        <result column="underlyinginstrid" jdbcType="VARCHAR" property="underlyinginstrid"/>
+    </resultMap>
+
+    <!--<select id="SelectInstrument"  resultMap="InstrumentResultMap">
+        SELECT a.id as id,a.exchangeid as exchangeid,a.instrumentname as instrumentname,a.instrumentid as instrumentid,a.exchangeinstid as exchangeinstid
+        FROM  QUANT_FUTURE_INSTRUMENT a where a.instrumentid like 'SA%'
+        ORDER BY a.id
+    </select>!-->
+    <select id="SelectInstrument"  resultMap="InstrumentResultMap">
+        SELECT a.id as id,a.exchangeid as exchangeid,a.instrumentname as instrumentname,a.productclass as productclass,a.deliveryyear as deliveryyear,
+               a.deliverymonth as deliverymonth,a.maxmarketordervolume as exchangeid,a.maxmarketordervolume as exchangeid,a.minmarketordervolume as minmarketordervolume,
+               a.maxlimitordervolume as maxlimitordervolume,a.minlimitordervolume as minlimitordervolume,a.volumemultiple as volumemultiple,a.pricetick as pricetick,
+               a.createdate as createdate,a.opendate as opendate,a.expiredate as expiredate,a.startdelivdate as startdelivdate,
+               a.enddelivdate as enddelivdate,a.instlifephase as instlifephase,a.istrading as istrading,a.positiontype as positiontype,
+               a.positiondatetype as positiondatetype,a.longmarginratio as longmarginratio,a.shortmarginratio as shortmarginratio,a.maxmarginsidealgorithm as maxmarginsidealgorithm,
+               a.strikeprice as strikeprice,a.optionstype as optionstype,a.underlyingmultiple as underlyingmultiple,a.combinationtype as combinationtype,
+               a.instrumentid as instrumentid,a.exchangeinstid as exchangeinstid,a.productid as productid,a.underlyinginstrid as underlyinginstrid
+        FROM  QUANT_FUTURE_INSTRUMENT a
+        ORDER BY a.id
+    </select>
+</mapper>

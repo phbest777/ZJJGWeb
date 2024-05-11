@@ -8,12 +8,12 @@ public class QuantFutureInstrument {
   private String productclass;
   private String deliveryyear;
   private String deliverymonth;
-  private String maxmarketordervolume;
-  private String minmarketordervolume;
-  private String maxlimitordervolume;
-  private String minlimitordervolume;
+  private Integer maxmarketordervolume;
+  private Integer minmarketordervolume;
+  private Integer maxlimitordervolume;
+  private Integer minlimitordervolume;
   private String volumemultiple;
-  private String pricetick;
+  private Double pricetick;
   private String createdate;
   private String opendate;
   private String expiredate;
@@ -23,12 +23,12 @@ public class QuantFutureInstrument {
   private String istrading;
   private String positiontype;
   private String positiondatetype;
-  private String longmarginratio;
-  private String shortmarginratio;
+  private Double longmarginratio;
+  private Double shortmarginratio;
   private String maxmarginsidealgorithm;
-  private String strikeprice;
+  private Double strikeprice;
   private String optionstype;
-  private String underlyingmultiple;
+  private Double underlyingmultiple;
   private String combinationtype;
   private String instrumentid;
   private String exchangeinstid;
@@ -90,38 +90,38 @@ public class QuantFutureInstrument {
   }
 
 
-  public String getMaxmarketordervolume() {
+  public Integer getMaxmarketordervolume() {
     return maxmarketordervolume;
   }
 
-  public void setMaxmarketordervolume(String maxmarketordervolume) {
+  public void setMaxmarketordervolume(Integer maxmarketordervolume) {
     this.maxmarketordervolume = maxmarketordervolume;
   }
 
 
-  public String getMinmarketordervolume() {
+  public Integer getMinmarketordervolume() {
     return minmarketordervolume;
   }
 
-  public void setMinmarketordervolume(String minmarketordervolume) {
+  public void setMinmarketordervolume(Integer minmarketordervolume) {
     this.minmarketordervolume = minmarketordervolume;
   }
 
 
-  public String getMaxlimitordervolume() {
+  public Integer getMaxlimitordervolume() {
     return maxlimitordervolume;
   }
 
-  public void setMaxlimitordervolume(String maxlimitordervolume) {
+  public void setMaxlimitordervolume(Integer maxlimitordervolume) {
     this.maxlimitordervolume = maxlimitordervolume;
   }
 
 
-  public String getMinlimitordervolume() {
+  public Integer getMinlimitordervolume() {
     return minlimitordervolume;
   }
 
-  public void setMinlimitordervolume(String minlimitordervolume) {
+  public void setMinlimitordervolume(Integer minlimitordervolume) {
     this.minlimitordervolume = minlimitordervolume;
   }
 
@@ -135,11 +135,11 @@ public class QuantFutureInstrument {
   }
 
 
-  public String getPricetick() {
+  public Double getPricetick() {
     return pricetick;
   }
 
-  public void setPricetick(String pricetick) {
+  public void setPricetick(Double pricetick) {
     this.pricetick = pricetick;
   }
 
@@ -225,20 +225,20 @@ public class QuantFutureInstrument {
   }
 
 
-  public String getLongmarginratio() {
+  public Double getLongmarginratio() {
     return longmarginratio;
   }
 
-  public void setLongmarginratio(String longmarginratio) {
+  public void setLongmarginratio(Double longmarginratio) {
     this.longmarginratio = longmarginratio;
   }
 
 
-  public String getShortmarginratio() {
+  public Double getShortmarginratio() {
     return shortmarginratio;
   }
 
-  public void setShortmarginratio(String shortmarginratio) {
+  public void setShortmarginratio(Double shortmarginratio) {
     this.shortmarginratio = shortmarginratio;
   }
 
@@ -252,11 +252,11 @@ public class QuantFutureInstrument {
   }
 
 
-  public String getStrikeprice() {
+  public Double getStrikeprice() {
     return strikeprice;
   }
 
-  public void setStrikeprice(String strikeprice) {
+  public void setStrikeprice(Double strikeprice) {
     this.strikeprice = strikeprice;
   }
 
@@ -270,11 +270,11 @@ public class QuantFutureInstrument {
   }
 
 
-  public String getUnderlyingmultiple() {
+  public Double getUnderlyingmultiple() {
     return underlyingmultiple;
   }
 
-  public void setUnderlyingmultiple(String underlyingmultiple) {
+  public void setUnderlyingmultiple(Double underlyingmultiple) {
     this.underlyingmultiple = underlyingmultiple;
   }
 

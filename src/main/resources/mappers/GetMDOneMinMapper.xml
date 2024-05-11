@@ -35,10 +35,20 @@
                a.upratio as upratio,a.interestminus as interestminus,a.interestratio as interestratio,a.oneminopenprice as oneminopenprice,a.averprice as averprice,
                a.oneminupratio as oneminupratio,a.oneminupprice as oneminupprice,a.onetimestamp as onetimestamp
         FROM  QUANT_FUTURE_MD_ONEMIN a
-        WHERE a.instrumentid=#{InstrumentID,jdbcType=VARCHAR} and a.tradingday=#{TradingDay} and id=9923
+        WHERE a.instrumentid=#{InstrumentID,jdbcType=VARCHAR} and a.tradingday=#{TradingDay}
         ORDER BY a.id
     </select>
-
+   <!--
+   <select id="SelectMDOneminByCode" parameterType="map" resultMap="MDOneminResultMap">
+        SELECT a.id as id, a.tradingday as tradingday,a.instrumentid as instrumentid,a.lastprice as lastprice,a.highestprice as highestprice,
+               a.lowestprice as lowestprice,a.presettlementprice as presettlementprice,a.precloseprice as precloseprice,a.preopeninterest as preopeninterest,
+               a.openprice as openprice,a.volume as volume,a.turnover as turnover,a.openinterest as openinterest,a.updatetime as updatetime,a.updateminute as updateminute,
+               a.upratio as upratio,a.interestminus as interestminus,a.interestratio as interestratio,a.oneminopenprice as oneminopenprice,a.averprice as averprice,
+               a.oneminupratio as oneminupratio,a.oneminupprice as oneminupprice,a.onetimestamp as onetimestamp
+        FROM  QUANT_FUTURE_MD_ONEMIN a
+        WHERE a.instrumentid=#{InstrumentID,jdbcType=VARCHAR} and a.tradingday=#{TradingDay} and id>8339 and id&lt; 8356
+        ORDER BY a.id
+    </select>!-->
     <select id="SelectMDOneminByMin" parameterType="map" resultMap="MDOneminResultMap">
         SELECT a.id as id, a.tradingday as tradingday,a.instrumentid as instrumentid,a.lastprice as lastprice,a.highestprice as highestprice,
                a.lowestprice as lowestprice,a.presettlementprice as presettlementprice,a.precloseprice as precloseprice,a.preopeninterest as preopeninterest,
